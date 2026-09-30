@@ -1,29 +1,25 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-
   useEffect(() => {
     const stored = window.localStorage.getItem("cm-theme");
     const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = stored ? stored === "dark" : preferred;
-    setDark(isDark);
-    document.documentElement.dataset.theme = isDark ? "dark" : "light";
+    document.documentElement.dataset.theme = stored ?? (preferred ? "dark" : "light");
   }, []);
 
   function toggle() {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.dataset.theme = next ? "dark" : "light";
-    window.localStorage.setItem("cm-theme", next ? "dark" : "light");
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    window.localStorage.setItem("cm-theme", next);
   }
 
   return (
     <button className="icon-button" type="button" onClick={toggle} aria-label="Toggle color theme">
-      {dark ? <Sun size={16} /> : <Moon size={16} />}
+      <Moon size={16} className="theme-icon theme-icon-light" />
+      <Sun size={16} className="theme-icon theme-icon-dark" />
     </button>
   );
 }
