@@ -40,7 +40,8 @@
 - [x] OnePlus official-source adapter
 - [x] Samsung official-source adapter
 - [x] vivo / iQOO official-source adapter
-- [ ] Add remaining manufacturer adapters
+- [x] Core launch manufacturer adapters (Apple, Google, Xiaomi/Redmi/POCO, OPPO/realme, Motorola, Nothing)
+- [ ] Add long-tail manufacturer adapters as verified catalog expands
 - [ ] Ingest 150–300 India-relevant launch catalog
 
 ## Commerce / pricing

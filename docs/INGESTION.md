@@ -11,6 +11,12 @@ Manufacturer adapters accept an injected loader. A loader may later read an offi
 - OnePlus official adapter
 - Samsung official adapter
 - vivo / iQOO official adapter
+- Apple official adapter
+- Google official adapter
+- Xiaomi / Redmi / POCO official adapter
+- OPPO / realme official adapter
+- Motorola official adapter
+- Nothing official adapter
 
 Each adapter maps source-specific naming into the canonical DeviceImport contract, keeps market context explicit, creates a primary-source provenance claim, and keeps retailer offers separate.
 
