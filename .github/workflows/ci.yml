@@ -36,5 +36,11 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Validate preview catalog
+        run: pnpm data:validate
+
+      - name: Unit tests
+        run: pnpm test
+
       - name: Build
         run: pnpm build

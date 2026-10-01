@@ -1,0 +1,39 @@
+import type { RegionCode } from "@/data/contracts/catalog";
+
+export const brandAliases: Record<string, string> = {
+  "one plus": "OnePlus",
+  oneplus: "OnePlus",
+  samsung: "Samsung",
+  "samsung electronics": "Samsung",
+  iqoo: "iQOO",
+  "i qoo": "iQOO",
+  vivo: "vivo",
+  oppo: "OPPO",
+  realme: "realme",
+  poco: "POCO",
+  xiaomi: "Xiaomi",
+  redmi: "Redmi",
+  motorola: "Motorola",
+  moto: "Motorola",
+  apple: "Apple",
+  google: "Google",
+  nothing: "Nothing",
+};
+
+export const regionAliases: Record<string, RegionCode> = {
+  india: "IN",
+  in: "IN",
+  china: "CN",
+  cn: "CN",
+  global: "GLOBAL",
+  worldwide: "GLOBAL",
+  eu: "EU",
+  europe: "EU",
+  us: "US",
+  usa: "US",
+  "united states": "US",
+  japan: "JP",
+  jp: "JP",
+  korea: "KR",
+  kr: "KR",
+};

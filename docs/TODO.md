@@ -23,10 +23,49 @@
 - [x] Guides architecture surface
 - [x] Brands surface
 
-## Data platform next
-- [ ] Cloudflare D1 project/bindings
-- [ ] Drizzle migrations + seed command
-- [ ] Source importer contracts
-- [ ] Zod validation layer
-- [ ] Normalization / alias engine
-- [ ] D\XØ]H]Xİ[Ûˆ(´ltY•É¥™¥…Ñ¥½¸ÅÕ•Õ”(´lt€ÄÔÃŠLÌÀÀ%¹‘¥„µÉ•±•Ù…¹Ğ±…Õ¹ …Ñ…±½œ((ŒŒ½µµ•É”½M<¹•áĞ(´ltI•Ñ…¥±•È…‘…ÁÑ•È¥¹Ñ•É™…”(´ltAÉ¥”Í¹…ÁÍ¡½ÑÌ½¡¥ÍÑ½Éä(´lt™™¥±¥…Ñ”UI0Í•Á…É…Ñ¥½¸‚‹HÈH™\İ][™\‹XYÙ]Ù[™\˜]YYÙ\Â‹HÈHÚ\Ù]ØØ]YÛÜH[™[™ÈYÙ\Â‹HÈHİXİ\™Y]H[YÚXš[]H]Y]‹HÈH[˜[]XÜÈ]™[ØÚ[XB‚ˆÈÈ]X[]H™Y›Ü™HXZ[ˆY\™ÙB‹HÈHÒH[œİ[İXØÙYYÈ(´ltM1¥¹ĞÉ••¸(´ltQåÁ•MÉ¥ÁĞÉ••¸(´ltAÉ½‘ÕÑ¥½¸‰Õ¥±É••¸(´lt5½‰¥±”Ù¥ÍÕ…°E(´lt•Í­Ñ½ÀÙ¥ÍÕ…°E(´lt•ÍÍ¥‰¥±¥ÑäÍµ½­”Ñ•ÍĞ(´lt9¼ÁÉ•Ù¥•Üµ½¹±äİ½É‘¥¹œ…¥‘•¹Ñ…±±äÉ•ÁÉ•Í•¹Ñ•…Ì™Õ±°…Ñ…±½œ(
+## Data platform
+- [x] D1 binding/config checked into the repo
+- [ ] Provision remote Cloudflare D1 database and replace placeholder database ID
+- [x] Drizzle schema + first migration
+- [x] Local verified-preview seed command
+- [x] Source importer interface
+- [x] Zod canonical input contracts
+- [x] Brand/region normalization + alias engine
+- [x] Region-aware deterministic dedupe keys
+- [x] Field-level provenance coverage checks
+- [x] Verification queue schema
+- [x] Ingestion run audit schema
+- [x] Batch validation/rejection path
+- [ ] Build source-specific manufacturer importers
+- [ ] Ingest 150â€“300 India-relevant launch catalog
+
+## Commerce / pricing
+- [x] Retailer adapter interface
+- [x] Integer minor-unit money contract
+- [x] Freshness rules for live-price labels
+- [x] Append-only price snapshot schema
+- [x] Affiliate URL separation from canonical retailer offers
+- [ ] Retailer-specific adapters
+- [ ] Historical price charts
+- [ ] Deal confidence / stale-price UI states
+
+## SEO / discovery next
+- [ ] Best-under-budget generated pages
+- [ ] Chipset/category landing pages
+- [ ] Region-aware structured-data eligibility audit
+- [ ] Editorial buying-guide content pipeline
+- [ ] Analytics event schema
+
+## Quality before main merge
+- [x] ESLint gate
+- [x] Strict TypeScript gate
+- [x] Preview catalog validation gate
+- [x] Unit-test gate wired into CI
+- [x] Production build gate
+- [ ] Local D1 migration + seed smoke test
+- [ ] Mobile visual QA
+- [ ] Desktop visual QA
+- [ ] Accessibility smoke test
+- [ ] Production deployment smoke test
+
+> Rule: do not merge to `main` until the current branch is green and the remaining release checks required for the intended milestone are complete.
