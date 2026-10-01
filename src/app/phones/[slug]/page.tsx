@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PhoneVisual } from "@/components/phone-visual";
 import { getPreviewDevice, verifiedPreviewDevices } from "@/data/verified-preview";
+import { buildProductJsonLd, safeJsonLd } from "@/lib/seo/product-jsonld";
 
 export function generateStaticParams() {
   return verifiedPreviewDevices.map((device) => ({ slug: device.slug }));
@@ -20,6 +21,9 @@ export default async function PhoneDetailPage({ params }: { params: Promise<{ sl
   const device = getPreviewDevice(slug);
   if (!device) notFound();
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const productJsonLd = buildProductJsonLd(device, siteUrl);
+
   const rows = [
     ["Chipset", device.specs.chipset],
     ["Display", device.specs.display],
@@ -34,6 +38,7 @@ export default async function PhoneDetailPage({ params }: { params: Promise<{ sl
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(productJsonLd) }} />
       <section className="page-shell py-12 md:py-18">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="soft-panel min-h-[430px] p-4"><PhoneVisual accent={device.accent} label={device.name} /></div>

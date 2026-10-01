@@ -13,6 +13,7 @@ export function Footer() {
           <Link href="/compare" className="hover:text-[var(--ink)]">Compare</Link>
           <Link href="/finder" className="hover:text-[var(--ink)]">Finder</Link>
           <Link href="/guides" className="hover:text-[var(--ink)]">Guides</Link>
+          <Link href="/chipsets" className="hover:text-[var(--ink)]">Chipsets</Link>
         </div>
       </div>
     </footer>

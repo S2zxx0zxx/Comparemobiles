@@ -22,6 +22,7 @@
 - [x] Deals/pricing integrity surface
 - [x] Guides architecture surface
 - [x] Brands surface
+- [x] Chipset discovery surface
 
 ## Data platform
 - [x] D1 binding/config checked into the repo
@@ -36,7 +37,10 @@
 - [x] Verification queue schema
 - [x] Ingestion run audit schema
 - [x] Batch validation/rejection path
-- [ ] Build source-specific manufacturer importers
+- [x] OnePlus official-source adapter
+- [x] Samsung official-source adapter
+- [x] vivo / iQOO official-source adapter
+- [ ] Add remaining manufacturer adapters
 - [ ] Ingest 150–300 India-relevant launch catalog
 
 ## Commerce / pricing
@@ -49,12 +53,12 @@
 - [ ] Historical price charts
 - [ ] Deal confidence / stale-price UI states
 
-## SEO / discovery next
-- [ ] Best-under-budget generated pages
-- [ ] Chipset/category landing pages
-- [ ] Region-aware structured-data eligibility audit
+## SEO / discovery
+- [ ] Best-under-budget generated pages (blocked until verified price coverage)
+- [x] Chipset landing pages
+- [x] Region-aware Product JSON-LD policy
 - [ ] Editorial buying-guide content pipeline
-- [ ] Analytics event schema
+- [x] Privacy-safe analytics event schema
 
 ## Quality before main merge
 - [x] ESLint gate
