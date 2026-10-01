@@ -9,6 +9,8 @@ async function settleFullPage(page: import("@playwright/test").Page) {
       await new Promise((resolve) => setTimeout(resolve, 80));
     }
     window.scrollTo(0, 0);
+    const active = document.activeElement;
+    if (active instanceof HTMLElement) active.blur();
   });
   await page.waitForTimeout(300);
 }
