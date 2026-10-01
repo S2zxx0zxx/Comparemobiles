@@ -42,5 +42,11 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
+      - name: D1 migration smoke
+        run: pnpm db:migrate:local
+
+      - name: D1 verified seed smoke
+        run: pnpm db:seed:local
+
       - name: Build
         run: pnpm build
