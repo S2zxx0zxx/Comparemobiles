@@ -10,6 +10,7 @@ test("homepage renders without viewport overflow", async ({ page }, testInfo) =>
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Find the phone");
   await expectNoBodyOverflow(page);
+  await page.waitForTimeout(800);
   await testInfo.attach(`homepage-${testInfo.project.name}`, { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
 });
 
@@ -38,6 +39,7 @@ test("404 gives recovery actions", async ({ page }) => {
 
 test("core page has no serious or critical accessibility violations", async ({ page }) => {
   await page.goto("/");
+  await page.waitForTimeout(800);
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   const blocking = results.violations.filter((violation) => violation.impact === "serious" || violation.impact === "critical");
   expect(blocking, blocking.map((violation) => `${violation.id}: ${violation.help}`).join("\n")).toEqual([]);
