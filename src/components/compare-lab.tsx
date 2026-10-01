@@ -1,7 +1,7 @@
 "use client";
 
 import { tableFeatures, useTable, type ColumnDef } from "@tanstack/react-table";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, ListFilter } from "lucide-react";
 import { useMemo, useState } from "react";
 import { verifiedPreviewDevices } from "@/data/verified-preview";
 
@@ -11,10 +11,11 @@ const features = tableFeatures({});
 export function CompareLab() {
   const [leftSlug, setLeftSlug] = useState("oneplus-15");
   const [rightSlug, setRightSlug] = useState("galaxy-s26");
+  const [differencesOnly, setDifferencesOnly] = useState(false);
   const left = verifiedPreviewDevices.find((d) => d.slug === leftSlug) ?? verifiedPreviewDevices[0];
   const right = verifiedPreviewDevices.find((d) => d.slug === rightSlug) ?? verifiedPreviewDevices[1];
 
-  const data = useMemo<CompareRow[]>(() => [
+  const allData = useMemo<CompareRow[]>(() => [
     { label: "Market", left: left.market, right: right.market },
     { label: "Chipset", left: left.specs.chipset, right: right.specs.chipset },
     { label: "Display", left: left.specs.display, right: right.specs.display },
@@ -26,6 +27,8 @@ export function CompareLab() {
     { label: "Storage", left: left.specs.storage, right: right.specs.storage },
     { label: "Software", left: left.specs.os, right: right.specs.os },
   ], [left, right]);
+
+  const data = useMemo(() => differencesOnly ? allData.filter((row) => row.left !== row.right) : allData, [allData, differencesOnly]);
 
   const columns = useMemo<Array<ColumnDef<typeof features, CompareRow>>>(() => [
     { accessorKey: "label", header: "Specification" },
@@ -41,13 +44,24 @@ export function CompareLab() {
         <DeviceSelect label="Device one" value={leftSlug} onChange={setLeftSlug} exclude={rightSlug} />
         <DeviceSelect label="Device two" value={rightSlug} onChange={setRightSlug} exclude={leftSlug} />
       </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-[var(--line)] bg-[var(--surface-1)] px-4 py-3">
+        <p className="text-xs text-[var(--muted)]">{data.length} of {allData.length} specification rows visible</p>
+        <button
+          type="button"
+          aria-pressed={differencesOnly}
+          onClick={() => setDifferencesOnly((value) => !value)}
+          className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition ${differencesOnly ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--line)] bg-[var(--surface-2)] text-[var(--muted)] hover:text-[var(--ink)]"}`}
+        >
+          <ListFilter size={14} /> Differences only
+        </button>
+      </div>
       <div className="overflow-hidden rounded-[24px] border border-[var(--line-strong)] bg-[var(--surface-1)] shadow-[var(--shadow-1)]">
         <div className="flex items-center gap-2 border-b border-[var(--line)] px-5 py-3 text-xs text-[var(--muted)]">
           <BadgeCheck size={14} className="text-[var(--positive)]" /> Values below come only from attached primary sources in the preview catalog.
         </div>
-        <div className="overflow-x-auto">
+        <div className="max-h-[70vh] overflow-auto">
           <table className="w-full min-w-[720px] border-collapse text-left">
-            <thead className="sticky top-0 bg-[var(--surface-2)]">
+            <thead className="sticky top-0 z-10 bg-[var(--surface-2)] shadow-[0_1px_0_var(--line)]">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
