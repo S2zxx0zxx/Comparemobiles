@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BadgeIndianRupee, ShieldCheck } from "lucide-react";
 import { PriceStatusBadge } from "@/components/price-status-badge";
+import { PriceHistoryChart } from "@/components/price-history-chart";
 import { SectionHeading } from "@/components/section-heading";
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function DealsPage() {
         <div className="mt-4 flex flex-wrap gap-2">{states.map((state) => <PriceStatusBadge key={state} state={state} />)}</div>
         <p className="mt-4 max-w-2xl text-xs leading-5 text-[var(--muted)]">A fresh in-stock offer may be labeled live. Old data is visibly stale; preorder, out-of-stock and unknown availability are never collapsed into the same state.</p>
       </div>
+      <div className="mt-5"><PriceHistoryChart snapshots={[]} currency="INR" /></div>
     </section>
   );
 }

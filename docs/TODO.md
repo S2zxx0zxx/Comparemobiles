@@ -50,7 +50,8 @@
 - [x] Append-only price snapshot schema
 - [x] Affiliate URL separation from canonical retailer offers
 - [x] Initial retailer adapters (Amazon India / Flipkart / Reliance Digital)
-- [ ] Historical price charts
+- [x] Historical price chart component + honest empty state
+- [ ] Wire chart to live verified retailer snapshots
 - [x] Deal confidence / stale-price UI states
 
 ## SEO / discovery
