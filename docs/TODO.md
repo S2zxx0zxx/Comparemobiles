@@ -53,6 +53,7 @@
 - [x] Affiliate URL separation from canonical retailer offers
 - [x] Initial retailer adapters (Amazon India / Flipkart / Reliance Digital)
 - [x] Historical price chart component + honest empty state
+- [x] D1 pricing repository for current offers and per-retailer history
 - [ ] Wire chart to live verified retailer snapshots
 - [x] Deal confidence / stale-price UI states
 
