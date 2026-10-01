@@ -51,6 +51,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Vinext compatibility check
+        run: pnpm check:vinext
+
+      - name: Vinext production build
+        run: pnpm build:vinext
+
       - name: Install Playwright Chromium
         run: pnpm exec playwright install --with-deps chromium
 
