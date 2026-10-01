@@ -71,7 +71,7 @@
 - [x] Local D1 migration + seed smoke test
 - [ ] Mobile visual QA
 - [ ] Desktop visual QA
-- [ ] Accessibility smoke test
+- [x] Accessibility smoke test (Playwright + axe, serious/critical violations gate)
 - [ ] Production deployment smoke test
 
 > Rule: do not merge to `main` until the current branch is green and the remaining release checks required for the intended milestone are complete.
