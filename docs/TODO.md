@@ -62,7 +62,7 @@
 - [x] Preview catalog validation gate
 - [x] Unit-test gate wired into CI
 - [x] Production build gate
-- [ ] Local D1 migration + seed smoke test
+- [x] Local D1 migration + seed smoke test
 - [ ] Mobile visual QA
 - [ ] Desktop visual QA
 - [ ] Accessibility smoke test
