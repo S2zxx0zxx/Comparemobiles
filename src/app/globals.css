@@ -94,6 +94,10 @@ button { cursor: pointer; }
 .metric-card { border: 1px solid var(--line); border-radius: 20px; background: var(--surface-1); padding: 18px; }
 .soft-panel { border: 1px solid var(--line-strong); border-radius: 28px; background: var(--surface-1); box-shadow: var(--shadow-1); }
 
+@media (max-width: 1023px) {
+  body { padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
+}
+
 @media (max-width: 640px) {
   .page-shell, .wide-shell { width: min(100% - 24px, 1240px); }
   .phone-stage { height: 220px; }
