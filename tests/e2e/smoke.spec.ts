@@ -29,6 +29,28 @@ test("homepage renders without viewport overflow", async ({ page }, testInfo) =>
   });
 });
 
+
+test("core routes produce reviewable desktop and mobile renders", async ({ page }, testInfo) => {
+  const routes = [
+    { path: "/", key: "home" },
+    { path: "/phones", key: "phones" },
+    { path: "/phones/oneplus-15", key: "phone-detail" },
+    { path: "/compare", key: "compare" },
+    { path: "/finder", key: "finder" },
+  ];
+
+  for (const route of routes) {
+    await page.goto(route.path);
+    await expect(page.locator("main")).toBeVisible();
+    await expectNoBodyOverflow(page);
+    await settleFullPage(page);
+    await testInfo.attach(`visual-${route.key}-${testInfo.project.name}`, {
+      body: await page.screenshot({ fullPage: true }),
+      contentType: "image/png",
+    });
+  }
+});
+
 test("compare supports differences-only workflow", async ({ page }) => {
   await page.goto("/compare");
   const toggle = page.getByRole("button", { name: "Differences only" });
