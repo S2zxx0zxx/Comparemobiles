@@ -21,9 +21,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <div className="min-h-screen">
           <SiteHeader />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <Footer />
           <MobileDock />
         </div>
