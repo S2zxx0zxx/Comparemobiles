@@ -9,3 +9,4 @@ import { previewCatalogRepository } from "@/data/catalog/preview-repository";
 export const catalogRepository: CatalogRepository = previewCatalogRepository;
 
 export type { CatalogQuery, CatalogRepository } from "@/data/catalog/repository";
+export { createD1CatalogRepository } from "@/data/catalog/d1-repository";

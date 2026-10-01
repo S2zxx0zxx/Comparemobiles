@@ -28,6 +28,7 @@
 - [x] D1 binding/config checked into the repo
 - [ ] Provision remote Cloudflare D1 database and replace placeholder database ID
 - [x] Drizzle schema + first migration
+- [x] D1-backed catalog repository implementation (runtime binding pending)
 - [x] Local verified-preview seed command
 - [x] Source importer interface
 - [x] Zod canonical input contracts
