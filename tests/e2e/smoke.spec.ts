@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-async function expectNoBodyOverflow(page: import("@playwright/test").Page) {
+async function settleFullPage(page: import("@playwright/test").Page) {\n  await page.evaluate(async () => {\n    const step = Math.max(300, Math.floor(window.innerHeight * 0.7));\n    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {\n      window.scrollTo(0, y);\n      await new Promise((resolve) => setTimeout(resolve, 80));\n    }\n    window.scrollTo(0, 0);\n  });\n  await page.waitForTimeout(300);\n}\n\nasync function expectNoBodyOverflow(page: import("@playwright/test").Page) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
 }

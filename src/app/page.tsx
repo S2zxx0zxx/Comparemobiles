@@ -69,7 +69,7 @@ export default function Home() {
               <p className="eyebrow-text">Comparison lab</p>
               <h2 className="mt-3 text-4xl font-semibold tracking-[-0.055em] md:text-5xl">See the difference.<br /><span className="text-[var(--muted)]">Skip the spreadsheet headache.</span></h2>
               <p className="mt-5 max-w-lg text-sm leading-6 text-[var(--muted)] md:text-[15px]">A clean comparison surface prioritizes the specs that changed, keeps region context visible and preserves the original source trail.</p>
-              <Link href="/compare" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[var(--ink)] px-4 py-3 text-sm font-semibold text-[var(--paper)]">Open Compare Lab <ArrowUpRight size={16} /></Link>
+              <Link href="/compare" className="primary-action mt-7 inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold">Open Compare Lab <ArrowUpRight size={16} /></Link>
             </div>
             <div className="rounded-[24px] border border-[var(--line)] bg-[var(--surface-2)] p-3 md:p-5">
               {["Chipset", "Display", "Battery", "Cameras", "Software"].map((row, index) => (

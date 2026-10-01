@@ -18,7 +18,7 @@ export function SearchDialog() {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger className="search-trigger">
+      <Dialog.Trigger className="search-trigger" aria-label="Search phones">
         <Search size={15} />
         <span className="hidden sm:inline">Search phones</span>
         <kbd className="hidden rounded-md border border-[var(--line)] bg-[var(--surface-2)] px-1.5 py-0.5 text-[10px] text-[var(--muted)] md:inline">⌘K</kbd>
