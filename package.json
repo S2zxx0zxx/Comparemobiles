@@ -9,7 +9,13 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "db:generate": "drizzle-kit generate"
+    "data:validate": "tsx scripts/validate-preview.ts",
+    "data:validate-import": "tsx scripts/validate-import.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply comparemobile --local",
+    "db:migrate:remote": "wrangler d1 migrations apply comparemobile --remote",
+    "db:seed:local": "wrangler d1 execute comparemobile --local --file=drizzle/seed/preview.sql",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
@@ -33,7 +39,11 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "16.3.8",
     "tailwindcss": "4.3.0",
+    "tsx": "4.23.15",
     "typescript": "^5.7.2",
-    "vitest": "^3.2.4"
+    "vitest": "5.0.3",
+    "wrangler": "4.143.0",
+    "@playwright/test": "1.63.0",
+    "@axe-core/playwright": "4.13.0"
   }
 }

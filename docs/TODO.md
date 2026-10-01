@@ -6,10 +6,11 @@
 - [x] Tailwind 4 tokenized visual system
 - [x] Base UI search dialog
 - [x] Motion reveal primitives
-- [x] TanStack Table v9 comparison surface
+- [x] TanStack Table comparison surface
+- [x] Drizzle D1-oriented schema foundation
 - [x] Responsive header + mobile dock + dark mode
 - [x] SEO metadata, robots and sitemap
-- [x] CI lint, typecheck, test and build gates
+- [x] CI quality gates
 
 ## Public V1 surfaces
 - [x] Premium homepage shell
@@ -21,40 +22,56 @@
 - [x] Deals/pricing integrity surface
 - [x] Guides architecture surface
 - [x] Brands surface
+- [x] Chipset discovery surface
 
 ## Data platform
-- [x] Canonical Zod import contracts
-- [x] Brand and region normalization
-- [x] Stable device and variant identity rules
-- [x] Duplicate detection for import batches
-- [x] Field-level provenance coverage guard
-- [x] D1-oriented Drizzle schema
-- [x] Initial SQL migration
-- [x] Retailer and price snapshot schema
-- [x] Affiliate URL separation
-- [x] Price freshness/current-price integrity rules
-- [x] Unit tests for normalization, provenance, dedupe and pricing
-- [ ] Create actual Cloudflare D1 database and add real binding IDs
-- [ ] Apply migration to Cloudflare D1
-- [ ] Build manufacturer-specific source adapters
-- [ ] Build verification queue/admin operations
-- [ ] Expand to 150–300 India-relevant launch devices
-- [ ] Add authorized/licensed device media pipeline
+- [x] D1 binding/config checked into the repo
+- [ ] Provision remote Cloudflare D1 database and replace placeholder database ID
+- [x] Drizzle schema + first migration
+- [x] Local verified-preview seed command
+- [x] Source importer interface
+- [x] Zod canonical input contracts
+- [x] Brand/region normalization + alias engine
+- [x] Region-aware deterministic dedupe keys
+- [x] Field-level provenance coverage checks
+- [x] Verification queue schema
+- [x] Ingestion run audit schema
+- [x] Batch validation/rejection path
+- [x] OnePlus official-source adapter
+- [x] Samsung official-source adapter
+- [x] vivo / iQOO official-source adapter
+- [x] Core launch manufacturer adapters (Apple, Google, Xiaomi/Redmi/POCO, OPPO/realme, Motorola, Nothing)
+- [ ] Add long-tail manufacturer adapters as verified catalog expands
+- [ ] Ingest 150–300 India-relevant launch catalog
 
-## Commerce and SEO
-- [ ] Retailer feed adapters
-- [ ] Price history queries and charts
-- [ ] Affiliate program adapters
-- [ ] Best-under-budget generated pages
-- [ ] Chipset/category landing pages
-- [ ] Structured-data eligibility audit
-- [ ] Analytics event schema
+## Commerce / pricing
+- [x] Retailer adapter interface
+- [x] Integer minor-unit money contract
+- [x] Freshness rules for live-price labels
+- [x] Append-only price snapshot schema
+- [x] Affiliate URL separation from canonical retailer offers
+- [x] Initial retailer adapters (Amazon India / Flipkart / Reliance Digital)
+- [x] Historical price chart component + honest empty state
+- [ ] Wire chart to live verified retailer snapshots
+- [x] Deal confidence / stale-price UI states
 
-## Release quality
-- [ ] Mobile visual QA on real devices
-- [ ] Desktop visual QA at target breakpoints
+## SEO / discovery
+- [ ] Best-under-budget generated pages (blocked until verified price coverage)
+- [x] Chipset landing pages
+- [x] Region-aware Product JSON-LD policy
+- [x] Editorial buying-guide content pipeline
+- [x] Privacy-safe analytics event schema
+
+## Quality before main merge
+- [x] ESLint gate
+- [x] Strict TypeScript gate
+- [x] Preview catalog validation gate
+- [x] Unit-test gate wired into CI
+- [x] Production build gate
+- [x] Local D1 migration + seed smoke test
+- [ ] Mobile visual QA
+- [ ] Desktop visual QA
 - [ ] Accessibility smoke test
-- [ ] Performance/Lighthouse audit
-- [ ] Cloudflare preview deployment
-- [ ] Production domain + canonical URL
-- [ ] Main-branch merge only after all required checks are green
+- [ ] Production deployment smoke test
+
+> Rule: do not merge to `main` until the current branch is green and the remaining release checks required for the intended milestone are complete.

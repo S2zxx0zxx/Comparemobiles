@@ -19,7 +19,8 @@ export function normalizeBrand(value: string) {
 }
 
 export function normalizeRegion(value: string): RegionCode {
-  return regionAliases[normalizedToken(value)] ?? "OTHER";
+  const token = normalizedToken(value);
+  return regionAliases[token] ?? "OTHER";
 }
 
 export function slugify(value: string) {
