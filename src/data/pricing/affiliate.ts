@@ -1,11 +1,13 @@
-export type AffiliateLinkRecord = {
-  offerId: number;
-  provider: string;
-  url: string;
-  active: boolean;
+export type RetailDestination = {
+  productUrl: string;
+  affiliateUrl?: string | null;
+  sponsored?: boolean;
 };
 
-export function chooseOutboundUrl(offerUrl: string, affiliate?: AffiliateLinkRecord | null) {
-  if (!affiliate?.active) return offerUrl;
-  return affiliate.url;
+export function outboundRetailUrl(destination: RetailDestination) {
+  return destination.affiliateUrl?.trim() || destination.productUrl;
+}
+
+export function isSponsoredDestination(destination: RetailDestination) {
+  return destination.sponsored === true;
 }

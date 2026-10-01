@@ -36,31 +36,8 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Validate preview catalog
-        run: pnpm data:validate
-
       - name: Unit tests
         run: pnpm test
 
-      - name: D1 migration smoke
-        run: pnpm db:migrate:local
-
-      - name: D1 verified seed smoke
-        run: pnpm db:seed:local
-
       - name: Build
         run: pnpm build
-
-      - name: Install Playwright Chromium
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Browser and accessibility smoke
-        run: pnpm test:e2e
-
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7

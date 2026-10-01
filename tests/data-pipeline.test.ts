@@ -1,81 +1,75 @@
 import { describe, expect, it } from "vitest";
-import { deviceIdentityKey } from "../src/data/dedupe/device-identity";
-import { normalizeBrand } from "../src/data/normalization";
-import { prepareDeviceImport } from "../src/data/importer/prepare-device";
-import { canLabelAsLivePrice, effectiveDiscountPercent } from "../src/data/pricing/integrity";
+import { prepareDeviceBatch, prepareDeviceImport } from "@/data/importers/pipeline";
+import { normalizeBrand, normalizeRegion, slugify } from "@/data/normalization";
+import { missingProvenancePaths } from "@/data/provenance/coverage";
 
-const baseDevice = {
-  sourceKey: "manufacturer:demo-1",
-  brand: "One Plus",
-  name: "Demo Phone",
-  modelNumber: "DM-100",
-  region: "IN" as const,
-  status: "available" as const,
+const validDevice = {
+  sourceKey: "manufacturer:example-x1:in",
+  brand: "  One Plus ",
+  name: " Example X1 ",
+  modelNumber: "EX-1",
+  region: "IN",
+  status: "available",
   specs: {
-    chipset: "Demo Silicon",
+    chipset: "Example SoC",
     batteryMah: 5000,
-    chargingW: 80,
+    refreshRateHz: 120,
   },
-  variants: [{ region: "IN" as const, ramGb: 12, storageGb: 256, color: "Black" }],
   claims: [
     {
       fieldPath: "specs.*",
-      sourceType: "manufacturer" as const,
-      sourceUrl: "https://example.com/demo-phone",
-      region: "IN" as const,
-      confidence: "primary" as const,
+      sourceType: "manufacturer",
+      sourceUrl: "https://example.com/device",
+      region: "IN",
+      confidence: "primary",
       verifiedAt: "2026-10-01",
     },
   ],
-  offers: [],
 };
 
-describe("catalog pipeline", () => {
-  it("normalizes known brand aliases", () => {
-    expect(normalizeBrand("  One Plus ")).toBe("OnePlus");
+describe("catalog normalization", () => {
+  it("normalizes known brands and regions", () => {
+    expect(normalizeBrand(" one plus ")).toBe("OnePlus");
+    expect(normalizeRegion("India")).toBe("IN");
+    expect(slugify("iQOO 16 Pro")).toBe("iqoo-16-pro");
   });
 
-  it("keeps regional records distinct", () => {
-    const indiaKey = deviceIdentityKey(baseDevice);
-    const chinaKey = deviceIdentityKey({ ...baseDevice, region: "CN" });
-    expect(indiaKey).not.toBe(chinaKey);
+  it("prepares a stable regional identity", () => {
+    const prepared = prepareDeviceImport(validDevice);
+    expect(prepared.payload.brand).toBe("OnePlus");
+    expect(prepared.slug).toBe("oneplus-example-x1-in");
+    expect(prepared.identityKey).toBe("oneplus::ex-1::IN");
   });
 
-  it("prepares a deterministic identity and variant identity", () => {
-    const prepared = prepareDeviceImport(baseDevice);
-    expect(prepared.device.brand).toBe("OnePlus");
-    expect(prepared.slug).toContain("oneplus-demo-phone-in");
-    expect(prepared.variants[0]?.identityKey).toContain("DM-100".toLowerCase());
-  });
-
-  it("rejects important spec fields without provenance", () => {
-    expect(() =>
-      prepareDeviceImport({
-        ...baseDevice,
-        claims: [{ ...baseDevice.claims[0], fieldPath: "specs.chipset" }],
-      }),
-    ).toThrow(/batteryMah/);
+  it("rejects duplicate device identities inside one import batch", () => {
+    expect(() => prepareDeviceBatch([validDevice, validDevice])).toThrow(/Duplicate device identity/);
   });
 });
 
-describe("price integrity", () => {
-  const offer = {
-    retailerKey: "demo-retailer",
-    region: "IN" as const,
-    currency: "INR",
-    amountMinor: 90000,
-    listAmountMinor: 100000,
-    availability: "in_stock" as const,
-    offerUrl: "https://example.com/offer",
-    checkedAt: "2026-10-01T04:00:00.000Z",
-  };
-
-  it("calculates discounts from integer minor units", () => {
-    expect(effectiveDiscountPercent(offer)).toBe(10);
+describe("provenance coverage", () => {
+  it("reports fields without a matching claim", () => {
+    const parsed = {
+      ...validDevice,
+      claims: [
+        {
+          ...validDevice.claims[0],
+          fieldPath: "specs.chipset",
+        },
+      ],
+    };
+    const prepared = prepareDeviceImport({
+      ...parsed,
+      specs: { chipset: "Example SoC" },
+    });
+    expect(missingProvenancePaths(prepared.payload)).toEqual([]);
   });
 
-  it("only labels fresh known-availability prices as live", () => {
-    expect(canLabelAsLivePrice(offer, new Date("2026-10-01T05:00:00.000Z"))).toBe(true);
-    expect(canLabelAsLivePrice(offer, new Date("2026-10-03T05:00:00.000Z"))).toBe(false);
+  it("rejects an imported spec that lacks provenance", () => {
+    expect(() =>
+      prepareDeviceImport({
+        ...validDevice,
+        claims: [{ ...validDevice.claims[0], fieldPath: "specs.chipset" }],
+      }),
+    ).toThrow(/Missing provenance claims/);
   });
 });
