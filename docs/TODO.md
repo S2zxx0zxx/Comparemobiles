@@ -49,9 +49,9 @@
 - [x] Freshness rules for live-price labels
 - [x] Append-only price snapshot schema
 - [x] Affiliate URL separation from canonical retailer offers
-- [ ] Retailer-specific adapters
+- [x] Initial retailer adapters (Amazon India / Flipkart / Reliance Digital)
 - [ ] Historical price charts
-- [ ] Deal confidence / stale-price UI states
+- [x] Deal confidence / stale-price UI states
 
 ## SEO / discovery
 - [ ] Best-under-budget generated pages (blocked until verified price coverage)
