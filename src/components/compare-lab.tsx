@@ -28,7 +28,10 @@ export function CompareLab() {
     { label: "Software", left: left.specs.os, right: right.specs.os },
   ], [left, right]);
 
-  const data = useMemo(() => differencesOnly ? allData.filter((row) => row.left !== row.right) : allData, [allData, differencesOnly]);
+  const data = useMemo(
+    () => differencesOnly ? allData.filter((row) => row.left !== row.right) : allData,
+    [allData, differencesOnly],
+  );
 
   const columns = useMemo<Array<ColumnDef<typeof features, CompareRow>>>(() => [
     { accessorKey: "label", header: "Specification" },
@@ -44,6 +47,7 @@ export function CompareLab() {
         <DeviceSelect label="Device one" value={leftSlug} onChange={setLeftSlug} exclude={rightSlug} />
         <DeviceSelect label="Device two" value={rightSlug} onChange={setRightSlug} exclude={leftSlug} />
       </div>
+
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-[var(--line)] bg-[var(--surface-1)] px-4 py-3">
         <p className="text-xs text-[var(--muted)]">{data.length} of {allData.length} specification rows visible</p>
         <button
@@ -55,11 +59,38 @@ export function CompareLab() {
           <ListFilter size={14} /> Differences only
         </button>
       </div>
+
       <div className="overflow-hidden rounded-[24px] border border-[var(--line-strong)] bg-[var(--surface-1)] shadow-[var(--shadow-1)]">
-        <div className="flex items-center gap-2 border-b border-[var(--line)] px-5 py-3 text-xs text-[var(--muted)]">
-          <BadgeCheck size={14} className="text-[var(--positive)]" /> Values below come only from attached primary sources in the preview catalog.
+        <div className="flex items-start gap-2 border-b border-[var(--line)] px-4 py-3 text-xs leading-5 text-[var(--muted)] sm:px-5">
+          <BadgeCheck size={14} className="mt-0.5 shrink-0 text-[var(--positive)]" />
+          Values below come only from attached primary sources in the preview catalog.
         </div>
-        <div className="max-h-[70vh] overflow-auto">
+
+        <div className="md:hidden">
+          <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--surface-2)]">
+            <DeviceColumnLabel name={left.name} market={left.market} />
+            <DeviceColumnLabel name={right.name} market={right.market} border />
+          </div>
+          <div>
+            {data.map((row) => (
+              <div key={row.label} className="border-b border-[var(--line)] last:border-0">
+                <p className="px-4 pt-4 text-[10px] font-bold uppercase tracking-[0.11em] text-[var(--muted)]">
+                  {row.label}
+                </p>
+                <div className="grid grid-cols-2">
+                  <div className="min-w-0 px-4 pb-4 pt-2 text-[13px] font-medium leading-5 text-[var(--ink)]">
+                    {row.left}
+                  </div>
+                  <div className="min-w-0 border-l border-[var(--line)] px-4 pb-4 pt-2 text-[13px] font-medium leading-5 text-[var(--ink)]">
+                    {row.right}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden max-h-[70vh] overflow-auto md:block">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead className="sticky top-0 z-10 bg-[var(--surface-2)] shadow-[0_1px_0_var(--line)]">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -76,7 +107,12 @@ export function CompareLab() {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="border-b border-[var(--line)] last:border-0">
                   {row.getAllCells().map((cell, index) => (
-                    <td key={cell.id} className={index === 0 ? "w-[22%] px-5 py-4 text-xs font-semibold text-[var(--muted)]" : "px-5 py-4 text-sm font-medium leading-5 text-[var(--ink)]"}>
+                    <td
+                      key={cell.id}
+                      className={index === 0
+                        ? "w-[22%] px-5 py-4 text-xs font-semibold text-[var(--muted)]"
+                        : "px-5 py-4 text-sm font-medium leading-5 text-[var(--ink)]"}
+                    >
                       <table.FlexRender cell={cell} />
                     </td>
                   ))}
@@ -90,14 +126,35 @@ export function CompareLab() {
   );
 }
 
-function DeviceSelect({ label, value, onChange, exclude }: { label: string; value: string; onChange: (value: string) => void; exclude: string }) {
+function DeviceColumnLabel({ name, market, border = false }: { name: string; market: string; border?: boolean }) {
+  return (
+    <div className={`min-w-0 px-4 py-3 ${border ? "border-l border-[var(--line)]" : ""}`}>
+      <p className="truncate text-xs font-semibold text-[var(--ink)]">{name}</p>
+      <p className="mt-0.5 truncate text-[10px] text-[var(--muted)]">{market}</p>
+    </div>
+  );
+}
+
+function DeviceSelect({
+  label,
+  value,
+  onChange,
+  exclude,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  exclude: string;
+}) {
   return (
     <label className="rounded-[20px] border border-[var(--line)] bg-[var(--surface-1)] p-4">
       <span className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--muted)]">{label}</span>
       <select value={value} onChange={(event) => onChange(event.target.value)} className="w-full bg-transparent text-sm font-semibold text-[var(--ink)] outline-none">
-        {verifiedPreviewDevices.filter((device) => device.slug !== exclude || device.slug === value).map((device) => (
-          <option key={device.slug} value={device.slug}>{device.name} · {device.market}</option>
-        ))}
+        {verifiedPreviewDevices
+          .filter((device) => device.slug !== exclude || device.slug === value)
+          .map((device) => (
+            <option key={device.slug} value={device.slug}>{device.name} · {device.market}</option>
+          ))}
       </select>
     </label>
   );
