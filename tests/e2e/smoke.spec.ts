@@ -6,10 +6,11 @@ async function expectNoBodyOverflow(page: import("@playwright/test").Page) {
   expect(overflow).toBeLessThanOrEqual(1);
 }
 
-test("homepage renders without viewport overflow", async ({ page }) => {
+test("homepage renders without viewport overflow", async ({ page }, testInfo) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Find the phone");
   await expectNoBodyOverflow(page);
+  await testInfo.attach(`homepage-${testInfo.project.name}`, { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
 });
 
 test("compare supports differences-only workflow", async ({ page }) => {
