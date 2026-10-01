@@ -29,3 +29,16 @@ Primary/open sources
 ## Non-goals in V1
 
 No Kubernetes, microservices, Redis, Elasticsearch, paid CMS, paid phone-spec API, user accounts, social feed, or unverified price scraping.
+
+
+## Cloudflare deployment compatibility
+
+The canonical Next.js workflow remains available. A parallel vinext path is kept in CI so Cloudflare Workers compatibility is proven before remote deployment:
+
+```text
+pnpm build          -> canonical Next.js production build
+pnpm check:vinext   -> known compatibility scan
+pnpm build:vinext   -> Vite/vinext production build
+```
+
+Remote deployment is intentionally not enabled until a real Cloudflare account, D1 database ID and deployment credentials are available. No placeholder account or database identifiers are treated as production configuration.
