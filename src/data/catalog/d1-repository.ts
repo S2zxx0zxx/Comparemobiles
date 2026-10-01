@@ -10,7 +10,12 @@ import {
 } from "@/db/schema";
 import type { Device, DeviceSource, DeviceSpecs } from "@/lib/device";
 
-const schema = { brands, deviceVariants, devices, sourceClaims };
+type D1Schema = {
+  brands: typeof brands;
+  deviceVariants: typeof deviceVariants;
+  devices: typeof devices;
+  sourceClaims: typeof sourceClaims;
+};
 
 const specsJsonSchema = z.object({
   displayPanel: z.string().optional(),
@@ -55,7 +60,7 @@ const brandAccents: Record<string, string> = {
   vivo: "#4b78ff",
 };
 
-type Db = DrizzleD1Database<typeof schema>;
+type Db = DrizzleD1Database<D1Schema>;
 
 type DeviceRow = {
   id: number;
