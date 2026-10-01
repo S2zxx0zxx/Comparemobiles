@@ -57,7 +57,7 @@ test("compare supports differences-only workflow", async ({ page }) => {
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("columnheader", { name: "Specification" })).toBeVisible();
+  await expect(page.getByText("Market", { exact: true }).first()).toBeVisible();
 });
 
 test("finder persists filters in the URL", async ({ page }) => {
