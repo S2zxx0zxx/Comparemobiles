@@ -36,7 +36,7 @@ const onePlusRecordSchema = z.object({
   })).default([]),
 });
 
-export type OnePlusOfficialRecord = z.infer<typeof onePlusRecordSchema>;
+export type OnePlusOfficialRecord = z.input<typeof onePlusRecordSchema>;
 
 export class OnePlusOfficialImporter implements SourceImporter<OnePlusOfficialRecord> {
   readonly key = "oneplus-official";

@@ -57,7 +57,7 @@
 - [ ] Best-under-budget generated pages (blocked until verified price coverage)
 - [x] Chipset landing pages
 - [x] Region-aware Product JSON-LD policy
-- [ ] Editorial buying-guide content pipeline
+- [x] Editorial buying-guide content pipeline
 - [x] Privacy-safe analytics event schema
 
 ## Quality before main merge

@@ -14,7 +14,7 @@ const vivoIqooRecordSchema = z.object({
   variants: z.array(z.object({ id: z.string().optional(), ramGb: z.number().int().optional(), storageGb: z.number().int().optional(), color: z.string().optional(), sku: z.string().optional() })).default([]),
 });
 
-export type VivoIqooOfficialRecord = z.infer<typeof vivoIqooRecordSchema>;
+export type VivoIqooOfficialRecord = z.input<typeof vivoIqooRecordSchema>;
 
 export class VivoIqooOfficialImporter implements SourceImporter<VivoIqooOfficialRecord> {
   readonly key = "vivo-iqoo-official";

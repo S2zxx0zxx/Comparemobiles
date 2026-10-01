@@ -15,7 +15,7 @@ const samsungRecordSchema = z.object({
   skus: z.array(z.object({ key: z.string().optional(), memoryGb: z.number().int().optional(), storageGb: z.number().int().optional(), colorName: z.string().optional(), sku: z.string().optional() })).default([]),
 });
 
-export type SamsungOfficialRecord = z.infer<typeof samsungRecordSchema>;
+export type SamsungOfficialRecord = z.input<typeof samsungRecordSchema>;
 
 export class SamsungOfficialImporter implements SourceImporter<SamsungOfficialRecord> {
   readonly key = "samsung-official";
