@@ -6,8 +6,14 @@ import { chooseOutboundUrl } from "@/data/pricing/affiliate";
 import type { CatalogOfferView, PricingRepository, RetailerPriceHistory } from "@/data/pricing/repository";
 import { offerPresentationState } from "@/data/pricing/status";
 
-const schema = { affiliateLinks, devices, offers, priceSnapshots, retailers };
-type Db = DrizzleD1Database<typeof schema>;
+type D1Schema = {
+  affiliateLinks: typeof affiliateLinks;
+  devices: typeof devices;
+  offers: typeof offers;
+  priceSnapshots: typeof priceSnapshots;
+  retailers: typeof retailers;
+};
+type Db = DrizzleD1Database<D1Schema>;
 
 function asAvailability(value: string): RetailerOfferInput["availability"] {
   if (value === "in_stock" || value === "out_of_stock" || value === "preorder") return value;
