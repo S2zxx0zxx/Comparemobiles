@@ -14,6 +14,8 @@
 
 # production
 /build
+/dist/
+/.vinext/
 
 # local env files
 .env*
