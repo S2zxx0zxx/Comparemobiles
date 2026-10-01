@@ -1,7 +1,19 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-async function settleFullPage(page: import("@playwright/test").Page) {\n  await page.evaluate(async () => {\n    const step = Math.max(300, Math.floor(window.innerHeight * 0.7));\n    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {\n      window.scrollTo(0, y);\n      await new Promise((resolve) => setTimeout(resolve, 80));\n    }\n    window.scrollTo(0, 0);\n  });\n  await page.waitForTimeout(300);\n}\n\nasync function expectNoBodyOverflow(page: import("@playwright/test").Page) {
+async function settleFullPage(page: import("@playwright/test").Page) {
+  await page.evaluate(async () => {
+    const step = Math.max(300, Math.floor(window.innerHeight * 0.7));
+    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 80));
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(300);
+}
+
+async function expectNoBodyOverflow(page: import("@playwright/test").Page) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
 }
@@ -10,8 +22,11 @@ test("homepage renders without viewport overflow", async ({ page }, testInfo) =>
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Find the phone");
   await expectNoBodyOverflow(page);
-  await page.waitForTimeout(800);
-  await testInfo.attach(`homepage-${testInfo.project.name}`, { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
+  await settleFullPage(page);
+  await testInfo.attach(`homepage-${testInfo.project.name}`, {
+    body: await page.screenshot({ fullPage: true }),
+    contentType: "image/png",
+  });
 });
 
 test("compare supports differences-only workflow", async ({ page }) => {
@@ -39,8 +54,13 @@ test("404 gives recovery actions", async ({ page }) => {
 
 test("core page has no serious or critical accessibility violations", async ({ page }) => {
   await page.goto("/");
-  await page.waitForTimeout(800);
+  await settleFullPage(page);
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
-  const blocking = results.violations.filter((violation) => violation.impact === "serious" || violation.impact === "critical");
-  expect(blocking, blocking.map((violation) => `${violation.id}: ${violation.help}`).join("\n")).toEqual([]);
+  const blocking = results.violations.filter((violation) =>
+    violation.impact === "serious" || violation.impact === "critical",
+  );
+  expect(
+    blocking,
+    blocking.map((violation) => `${violation.id}: ${violation.help}`).join("\n"),
+  ).toEqual([]);
 });
