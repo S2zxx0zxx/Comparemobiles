@@ -7,3 +7,10 @@ export { OppoRealmeOfficialImporter } from "@/data/importer/manufacturers/oppo-r
 export { SamsungOfficialImporter } from "@/data/importer/manufacturers/samsung";
 export { VivoIqooOfficialImporter } from "@/data/importer/manufacturers/vivo-iqoo";
 export { XiaomiFamilyOfficialImporter } from "@/data/importer/manufacturers/xiaomi-family";
+export {
+  AsusRogOfficialImporter,
+  HmdNokiaOfficialImporter,
+  HonorOfficialImporter,
+  LavaOfficialImporter,
+  TranssionOfficialImporter,
+} from "@/data/importer/manufacturers/long-tail";

@@ -18,6 +18,15 @@ export const brandAliases: Record<string, string> = {
   apple: "Apple",
   google: "Google",
   nothing: "Nothing",
+  honor: "HONOR",
+  hmd: "HMD",
+  nokia: "Nokia",
+  asus: "ASUS",
+  rog: "ROG",
+  "republic of gamers": "ROG",
+  tecno: "TECNO",
+  infinix: "Infinix",
+  lava: "Lava",
 };
 
 export const regionAliases: Record<string, RegionCode> = {

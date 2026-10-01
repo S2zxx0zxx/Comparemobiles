@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { prepareDeviceImport } from "@/data/importer/prepare-device";
-import { AppleOfficialImporter, GoogleOfficialImporter, MotorolaOfficialImporter, NothingOfficialImporter, OppoRealmeOfficialImporter, XiaomiFamilyOfficialImporter } from "@/data/importer/manufacturers";
+import { AppleOfficialImporter, AsusRogOfficialImporter, GoogleOfficialImporter, HmdNokiaOfficialImporter, HonorOfficialImporter, LavaOfficialImporter, MotorolaOfficialImporter, NothingOfficialImporter, OppoRealmeOfficialImporter, TranssionOfficialImporter, XiaomiFamilyOfficialImporter } from "@/data/importer/manufacturers";
 
 const context={checkedAt:"2026-10-01",region:"IN" as const};
 
@@ -36,5 +36,17 @@ describe("major manufacturer coverage",()=>{
     const nothing=new NothingOfficialImporter(async()=>[]).transform({sourceKey:"nothing:test",name:"Phone Test",region:"IN",status:"available",sourceUrl:"https://in.nothing.tech/",display:{}},context);
     expect(prepareDeviceImport(moto).device.brand).toBe("Motorola");
     expect(prepareDeviceImport(nothing).device.brand).toBe("Nothing");
+  });
+
+  it("covers important long-tail India manufacturer families without cross-brand leakage",()=>{
+    const records = [
+      new HonorOfficialImporter(async()=>[]).transform({sourceKey:"honor:test",brand:"HONOR",productName:"HONOR Test",region:"IN",status:"available",sourceUrl:"https://www.honor.com/in/"},context),
+      new HmdNokiaOfficialImporter(async()=>[]).transform({sourceKey:"hmd:test",brand:"HMD",productName:"HMD Test",region:"IN",status:"available",sourceUrl:"https://www.hmd.com/en_in"},context),
+      new AsusRogOfficialImporter(async()=>[]).transform({sourceKey:"rog:test",brand:"ROG",productName:"ROG Test",region:"IN",status:"available",sourceUrl:"https://rog.asus.com/in/phones/"},context),
+      new TranssionOfficialImporter(async()=>[]).transform({sourceKey:"tecno:test",brand:"TECNO",productName:"TECNO Test",region:"IN",status:"available",sourceUrl:"https://www.tecno-mobile.com/in/"},context),
+      new LavaOfficialImporter(async()=>[]).transform({sourceKey:"lava:test",brand:"Lava",productName:"Lava Test",region:"IN",status:"available",sourceUrl:"https://www.lavamobiles.com/"},context),
+    ];
+    expect(records.map((record)=>prepareDeviceImport(record).device.brand)).toEqual(["HONOR","HMD","ROG","TECNO","Lava"]);
+    expect(()=>new HonorOfficialImporter(async()=>[]).transform({sourceKey:"bad:test",brand:"HMD",productName:"Wrong Family",region:"IN",status:"available",sourceUrl:"https://www.hmd.com/en_in"},context)).toThrow(/not supported/);
   });
 });
